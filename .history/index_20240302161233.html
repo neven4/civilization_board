@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Civilization Board Game</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      label {
+        font-size: 1.2rem;
+      }
+      .item {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to My Civilization Board Game</h1>
+
+    <form>
+      <div class="container">
+        <div class="item">
+          <input type="checkbox" id="main" name="main" checked />
+          <label for="main">Main intro</label>
+        </div>
+
+        <div class="item">
+          <input type="checkbox" id="rome" name="rome" />
+          <label for="rome">Rome</label>
+        </div>
+
+        <div class="item">
+          <input type="checkbox" id="japan" name="japan" />
+          <label for="japan">Japan</label>
+        </div>
+
+        <div class="item">
+          <input type="checkbox" id="egypt" name="egypt" />
+          <label for="egypt">Egypt</label>
+        </div>
+
+        <div class="item">
+          <input type="checkbox" id="america" name="america" />
+          <label for="america">America</label>
+        </div>
+
+        <div class="item">
+          <input type="checkbox" id="aztec" name="aztec" />
+          <label for="aztec">Aztec</label>
+        </div>
+
+        <div class="item">
+          <input type="checkbox" id="france" name="france" />
+          <label for="france">France</label>
+        </div>
+
+        <div class="item">
+          <input type="checkbox" id="scythia" name="scythia" />
+          <label for="scythia">Scythia</label>
+        </div>
+
+        <div class="item">
+          <input type="checkbox" id="sumeria" name="sumeria" />
+          <label for="sumeria">Sumeria</label>
+        </div>
+      </div>
+
+      <button type="submit">Start</button>
+      <button id="stop">Pause</button>
+      <button id="play">Play</button>
+    </form>
+
+    <audio src=""></audio>
+  </body>
+
+  <script>
+    const form = document.querySelector("form");
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const audio = document.querySelector("audio");
+
+    function getAudioPathByCheckboxName(name) {
+      return `./audio/${name}.mp3`;
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const audioList = Array.from(checkboxes)
+        .filter((checkbox) => checkbox.checked)
+        .map((checkbox) => checkbox.name);
+
+      let songIndex = 0;
+      audio.src = getAudioPathByCheckboxName(audioList[songIndex]);
+
+      audio.addEventListener("ended", () => {
+        songIndex++;
+        if (songIndex >= audioList.length) return;
+        audio.src = getAudioPathByCheckboxName(audioList[songIndex]);
+        audio.play();
+      });
+
+      audio.play();
+    });
+
+    document.getElementById("stop").addEventListener("click", (e) => {
+      e.preventDefault();
+      audio.pause();
+    });
+  </script>
+</html>
